@@ -1,4 +1,4 @@
-module dotenv.org/godotenvvault
+module github.com/dotenv-org/godotenvvault
 
 go 1.20
 
