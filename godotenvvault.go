@@ -112,6 +112,12 @@ func Parse(r io.Reader) (map[string]string, error) {
 // variable that already exists - consider the .env.vault file to set
 // development variables or sensible defaults.
 func Load(filenames ...string) error {
+	// Fallback to godotenv if DOTENV_KEY environment variable isn't
+	// set.
+	if _, exists := os.LookupEnv("DOTENV_KEY"); !exists {
+		return godotenv.Load(filenames...)
+	}
+
 	filenames = filenamesOrDefault(filenames)
 
 	for _, filename := range filenames {
@@ -141,6 +147,12 @@ func Load(filenames ...string) error {
 // that already exists - consider the .env.vault file to forcefully
 // set all environment variables.
 func Overload(filenames ...string) error {
+	// Fallback to godotenv if DOTENV_KEY environment variable isn't
+	// set.
+	if _, exists := os.LookupEnv("DOTENV_KEY"); !exists {
+		return godotenv.Overload(filenames...)
+	}
+
 	filenames = filenamesOrDefault(filenames)
 
 	for _, filename := range filenames {
@@ -156,6 +168,12 @@ func Overload(filenames ...string) error {
 // semantics as Load) but return values as a map rather than
 // automatically writing values into the environment.
 func Read(filenames ...string) (map[string]string, error) {
+	// Fallback to godotenv if DOTENV_KEY environment variable isn't
+	// set.
+	if _, exists := os.LookupEnv("DOTENV_KEY"); !exists {
+		return godotenv.Read(filenames...)
+	}
+
 	filenames = filenamesOrDefault(filenames)
 	envMap := make(map[string]string)
 

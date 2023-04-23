@@ -1,6 +1,8 @@
 # GoDotEnvVault
 
-Extends the proven & trusted foundation of [godotenv](https://github.com/joho/godotenv), with `.env.vault` file support.
+Extends the proven & trusted foundation of
+[godotenv](https://github.com/joho/godotenv), with `.env.vault` file
+support.
 
 ## Installation
 
@@ -19,7 +21,24 @@ S3_BUCKET=YOURS3BUCKET
 SECRET_KEY=YOURSECRETKEYGOESHERE
 ```
 
-Then in your Go app you can do something like
+Then encrypt your environment settings by doing:
+
+```shell
+npx dotenv-vault local build
+```
+
+This will create an encrypted `.env.vault` file along with a
+`.env.keys` file containing the encryption keys. Set the
+`DOTENV_KEY_DEVELOPMENT` environment variable by copying and pasting
+the key value from the `.env.keys` file:
+
+```shell
+export DOTENV_KEY_DEVELOPMENT="<key string from .env.keys>"
+```
+
+You can now delete your original `.env` file, and use Go like the
+following to read environment settings from the encrypted `.env.vault`
+file:
 
 ```go
 package main
@@ -28,7 +47,7 @@ import (
     "log"
     "os"
 
-    "github.com/joho/godotenvvault"
+    "github.com/dotenv-org/godotenvvault"
 )
 
 func main() {
@@ -44,13 +63,16 @@ func main() {
 }
 ```
 
-If you're even lazier than that, you can just take advantage of the autoload package which will read in `.env` on import
+An even more convenient option is to take advantage of the autoload
+package which will read in `.env.vault` on import
 
 ```go
 import _ "github.com/dotenv-org/godotenvvault/autoload"
 ```
 
-While `.env` in the project root is the default, you don't have to be constrained, both examples below are 100% legit
+While `.env.vault` in the project root is the default, you don't have
+to be constrained. You can load alternative encrypted environment
+files like this:
 
 ```go
 godotenvvault.Load("somerandomfile")
@@ -98,7 +120,8 @@ myEnv, err := godotenvvault.Unmarshal(content)
 
 ### Precedence & Conventions
 
-Existing envs take precedence of envs that are loaded later.
+Existing environment variables take precedence over environment
+settings that are loaded later.
 
 The [convention](https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use)
 for managing multiple environments (i.e. development, test, production)
@@ -125,16 +148,25 @@ and overwrite existing envs instead of only supplanting them. Use with caution.
 
 #### What happens if `DOTENV_KEY` is not set?
 
-Dotenv Vault gracefully falls back to [godotenv](https://github.com/joho/godotenv) when `DOTENV_KEY` is not set. This is the default for development so that you can focus on editing your `.env` file and save the `build` command until you are ready to deploy those environment variables changes.
+Dotenv Vault gracefully falls back to
+[godotenv](https://github.com/joho/godotenv) when `DOTENV_KEY` is not
+set. This is the default for development so that you can focus on
+editing your `.env` file and save the `build` command until you are
+ready to deploy those environment variables changes.
 
 #### Should I commit my `.env` file?
 
-No. We **strongly** recommend against committing your `.env` file to version control. It should only include environment-specific values such as database passwords or API keys. Your production database should have a different password than your development database.
+No. We **strongly** recommend against committing your `.env` file to
+version control. It should only include environment-specific values
+such as database passwords or API keys. Your production database
+should have a different password than your development database.
 
 #### Should I commit my `.env.vault` file?
 
-Yes. It is safe and recommended to do so. It contains your encrypted envs, and your vault identifier.
+Yes. It is safe and recommended to do so. It contains your encrypted
+envs, and your vault identifier.
 
 #### Can I share the `DOTENV_KEY`?
 
-No. It is the key that unlocks your encrypted environment variables. Be very careful who you share this key with. Do not let it leak.
+No. It is the key that unlocks your encrypted environment variables.
+Be very careful who you share this key with. Do not let it leak.
