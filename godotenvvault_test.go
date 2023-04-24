@@ -6,17 +6,17 @@ import (
 )
 
 type testKey struct {
-	key         string
-	ok          bool
-	environment string
+	key            string
+	ok             bool
+	environmentKey string
 }
 
 var TEST_KEYS = []testKey{
-	{"dotenv://:key_1234@dotenv.org/vault/.env.vault?environment=production", true, "production"},
-	{"dotenv://:key_0dec82bea24ada79a983dcc11b431e28838eae59a07a8f983247c7ca9027a925@dotenv.local/vault/.env.vault?environment=development", true, "development"},
+	{"dotenv://:key_1234@dotenv.org/vault/.env.vault?environment=production", true, "DOTENV_VAULT_PRODUCTION"},
+	{"dotenv://:key_0dec82bea24ada79a983dcc11b431e28838eae59a07a8f983247c7ca9027a925@dotenv.local/vault/.env.vault?environment=development", true, "DOTENV_VAULT_DEVELOPMENT"},
 
 	// Missing key value.
-	{"dotenv://dotenv.org/vault/.env.vault?environment=production", false, "production"},
+	{"dotenv://dotenv.org/vault/.env.vault?environment=production", false, "DOTENV_VAULT_PRODUCTION"},
 
 	// Missing environment.
 	{"dotenv://:key_1234@dotenv.org/vault/.env.vault", false, ""},
@@ -24,7 +24,7 @@ var TEST_KEYS = []testKey{
 
 func TestKeyParsing(t *testing.T) {
 	for itest, test := range TEST_KEYS {
-		key, err := ParseKey(test.key)
+		key, err := parseKey(test.key)
 		if !test.ok {
 			if err == nil {
 				t.Errorf("Parse should have failed but didn't! (test key #%d)", itest+1)
@@ -36,8 +36,8 @@ func TestKeyParsing(t *testing.T) {
 			t.Errorf("Parse failed (test key #%d): %v", itest+1, err)
 			continue
 		}
-		if key.Environment != test.environment {
-			t.Errorf("Parse failed (test key #%d): bad environment = '%s'", itest+1, key.Environment)
+		if key.environmentKey != test.environmentKey {
+			t.Errorf("Parse failed (test key #%d): bad environment key = '%s'", itest+1, key.environmentKey)
 		}
 	}
 }

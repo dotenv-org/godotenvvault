@@ -314,14 +314,16 @@ func keyRotation(keys []*keyData) (string, error) {
 	return "", errors.New(errorInvalidKey)
 }
 
+const keyLength = 64
+
 // Decrypt a single encrypted environment string using the supplied
 // key. The cipher is AES-GCM, and the first 12 bytes of the
 // ciphertext are used as the nonce value.
 func decrypt(cipherText string, key string) ([]byte, error) {
-	key = key[4:]
-	if len(key) < 64 {
+	if len(key) < keyLength {
 		return nil, errors.New(errorInvalidKeyLength)
 	}
+	key = key[len(key)-keyLength:]
 
 	keyBytes, err := hex.DecodeString(key)
 	if err != nil {
