@@ -1,5 +1,7 @@
 # GoDotEnvVault
 
+![CI workflow](https://github.com/dotenv-org/godotenvvault/actions/workflows/ci.yml/badge.svg)
+
 Extends the proven & trusted foundation of
 [godotenv](https://github.com/joho/godotenv), with `.env.vault` file
 support.
