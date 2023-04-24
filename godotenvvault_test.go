@@ -1,6 +1,7 @@
 package godotenvvault
 
 import (
+	"os"
 	"strings"
 	"testing"
 )
@@ -49,8 +50,25 @@ DOTENV_VAULT_DEVELOPMENT="H2A2wOUZU+bjKH3kTpeua9iIhtK/q7/VpAn+LLVNnms+CtQ/cwXqiw
 `
 
 func TestVaultParsing(t *testing.T) {
+	// Do this manually instead of using t.Setenv to support Go 1.16.
+	// (testing.Setenv was introduced in 1.17)
+	key := "DOTENV_KEY"
+	prevValue, ok := os.LookupEnv(key)
+	if err := os.Setenv(key, PARSE_TEST_KEY); err != nil {
+		t.Fatalf("cannot set environment variable: %v", err)
+	}
+	if ok {
+		t.Cleanup(func() {
+			os.Setenv(key, prevValue)
+		})
+	} else {
+		t.Cleanup(func() {
+			os.Unsetenv(key)
+		})
+	}
+
 	vaultReader := strings.NewReader(PARSE_TEST_VAULT)
-	t.Setenv("DOTENV_KEY", PARSE_TEST_KEY)
+
 	vals, err := Parse(vaultReader)
 	if err != nil {
 		t.Errorf("Parse failed: %v", err)
