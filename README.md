@@ -70,32 +70,17 @@ package which will read in `.env.vault` on import
 import _ "github.com/dotenv-org/godotenvvault/autoload"
 ```
 
-While `.env.vault` in the project root is the default, you don't have
-to be constrained. You can load alternative encrypted environment
-files like this:
+Note that when the `DOTENV_KEY` environment variable is set,
+environment settings will *always* be loaded from the `.env.vault`
+file in the project root. For development use, you can leave the
+`DOTENV_KEY` environment variable unset and fall back on the
+`godotenv` behaviour of loading from `.env` or a specified set of
+files (see [here in the `gotodenv`
+README](https://github.com/joho/godotenv#usage) for the details).
 
-```go
-godotenvvault.Load("somerandomfile")
-godotenvvault.Load("filenumberone.env", "filenumbertwo.env")
-```
-
-If you want to be really fancy with your env file you can do comments and exports (below is a valid env file)
-
-```shell
-# I am a comment and that is OK
-SOME_VAR=someval
-FOO=BAR # comments at line end are OK too
-export BAR=BAZ
-```
-
-Or finally you can do YAML(ish) style
-
-```yaml
-FOO: bar
-BAR: baz
-```
-
-as a final aside, if you don't want godotenvvault munging your env you can just get a map back instead
+If you don't want `godotenvvault` to modify your program's environment
+directly, you can just load and decrypt the `.env.vault` file and get
+the result as a map by doing:
 
 ```go
 var myEnv map[string]string
@@ -103,46 +88,6 @@ myEnv, err := godotenvvault.Read()
 
 s3Bucket := myEnv["S3_BUCKET"]
 ```
-
-... or from an `io.Reader` instead of a local file
-
-```go
-reader := getRemoteFile()
-myEnv, err := godotenvvault.Parse(reader)
-```
-
-... or from a `string` if you so desire
-
-```go
-content := getRemoteFileContent()
-myEnv, err := godotenvvault.Unmarshal(content)
-```
-
-### Precedence & Conventions
-
-Existing environment variables take precedence over environment
-settings that are loaded later.
-
-The [convention](https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use)
-for managing multiple environments (i.e. development, test, production)
-is to create an env named `{YOURAPP}_ENV` and load envs in this order:
-
-```go
-env := os.Getenv("FOO_ENV")
-if "" == env {
-  env = "development"
-}
-
-godotenvvault.Load(".env." + env + ".local")
-if "test" != env {
-  godotenvvault.Load(".env.local")
-}
-godotenvvault.Load(".env." + env)
-godotenvvault.Load() // The Original .env
-```
-
-If you need to, you can also use `godotenvvault.Overload()` to defy this convention
-and overwrite existing envs instead of only supplanting them. Use with caution.
 
 ## FAQ
 

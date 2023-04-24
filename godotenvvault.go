@@ -118,15 +118,9 @@ func Load(filenames ...string) error {
 		return godotenv.Load(filenames...)
 	}
 
-	filenames = filenamesOrDefault(filenames)
-
-	for _, filename := range filenames {
-		err := loadFile(filename, false)
-		if err != nil {
-			return err
-		}
-	}
-	return nil
+	// The DOTENV_KEY environment variable is set, so load from the
+	// .env.vault file, ignoring any filenames passed in.
+	return loadFile(".env.vault", false)
 }
 
 // Overload will read your encrypted env file(s) and load them into
@@ -153,15 +147,9 @@ func Overload(filenames ...string) error {
 		return godotenv.Overload(filenames...)
 	}
 
-	filenames = filenamesOrDefault(filenames)
-
-	for _, filename := range filenames {
-		err := loadFile(filename, true)
-		if err != nil {
-			return err
-		}
-	}
-	return nil
+	// The DOTENV_KEY environment variable is set, so load from the
+	// .env.vault file, ignoring any filenames passed in.
+	return loadFile(".env.vault", true)
 }
 
 // Read all encrypted environments (with the same file loading
@@ -174,22 +162,9 @@ func Read(filenames ...string) (map[string]string, error) {
 		return godotenv.Read(filenames...)
 	}
 
-	filenames = filenamesOrDefault(filenames)
-	envMap := make(map[string]string)
-
-	for _, filename := range filenames {
-		individualEnvMap, err := readFile(filename)
-
-		if err != nil {
-			return nil, err
-		}
-
-		for key, value := range individualEnvMap {
-			envMap[key] = value
-		}
-	}
-
-	return envMap, nil
+	// The DOTENV_KEY environment variable is set, so load from the
+	// .env.vault file, ignoring any filenames passed in.
+	return readFile(".env.vault")
 }
 
 // Unmarshal reads an environment file from a string, returning a map
@@ -358,13 +333,6 @@ func decrypt(cipherText string, key string) ([]byte, error) {
 
 // ---------------------------------------------------------------------------
 // Private functions taken from github.com/joho/godotenv start here:
-
-func filenamesOrDefault(filenames []string) []string {
-	if len(filenames) == 0 {
-		return []string{".env.vault"}
-	}
-	return filenames
-}
 
 func loadFile(filename string, overload bool) error {
 	envMap, err := readFile(filename)
