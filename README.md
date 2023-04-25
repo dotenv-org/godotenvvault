@@ -6,43 +6,32 @@ Extends the proven & trusted foundation of
 [godotenv](https://github.com/joho/godotenv), with `.env.vault` file
 support.
 
-## Installation
+* [🌱 Install](#-install)
+* [🏗️ Usage (.env)](#-usage)
+* [🚀 Deploying (.env.vault) 🆕](#-deploying)
+* [🌴 Multiple Environments](#-manage-multiple-environments)
+* [❓ FAQ](#-faq)
+* [⏱️ Changelog](./CHANGELOG.md)
 
-As a library
+## 🌱 Install
 
 ```shell
 go get github.com/dotenv-org/godotenvvault
 ```
 
-## Usage
+## 🏗️ Usage
 
 Add your application configuration to your `.env` file in the root of your project:
 
 ```shell
+# .env
 S3_BUCKET=YOURS3BUCKET
 SECRET_KEY=YOURSECRETKEYGOESHERE
 ```
 
-Then encrypt your environment settings by doing:
+As early as possible in your application, import and configure godotenvvault:
 
-```shell
-npx dotenv-vault local build
 ```
-
-This will create an encrypted `.env.vault` file along with a
-`.env.keys` file containing the encryption keys. Set the
-`DOTENV_KEY` environment variable by copying and pasting
-the key value from the `.env.keys` file:
-
-```shell
-export DOTENV_KEY="<key string from .env.keys>"
-```
-
-You can now delete your original `.env` file, and use Go like the
-following to read environment settings from the encrypted `.env.vault`
-file:
-
-```go
 package main
 
 import (
@@ -65,12 +54,27 @@ func main() {
 }
 ```
 
-An even more convenient option is to take advantage of the autoload
-package which will read in `.env.vault` on import
+That's it! `os.Getenv` has the keys and values you defined in your .env file. Continue using it this way in development. It works just like [godotenv](https://github.com/joho/godotenv). In the next section, we'll unlock the recommended deployment mechanism using `.env.vault`.
 
-```go
-import _ "github.com/dotenv-org/godotenvvault/autoload"
+## 🚀 Deploying
+
+Encrypt your environment settings by doing:
+
+```shell
+npx dotenv-vault local build
 ```
+
+This will create an encrypted `.env.vault` file along with a
+`.env.keys` file containing the encryption keys. Set the
+`DOTENV_KEY` environment variable by copying and pasting
+the key value from the `.env.keys` file onto your server
+or cloud provider. For example in heroku:
+
+```shell
+heroku config:set DOTENV_KEY=<key string from .env.keys>
+```
+
+Commit your .env.vault file safely to code and deploy. Your .env.vault fill be decrypted on boot, its environment variables injected, and your app work as expected.
 
 Note that when the `DOTENV_KEY` environment variable is set,
 environment settings will *always* be loaded from the `.env.vault`
@@ -91,7 +95,29 @@ myEnv, err := godotenvvault.Read()
 s3Bucket := myEnv["S3_BUCKET"]
 ```
 
-## FAQ
+## 🌴 Manage Multiple Environments
+
+Create a `.env.production` file in the root of your project and put your production values there.
+
+```shell
+# .env.production
+S3_BUCKET="PRODUCTION_S3BUCKET"
+SECRET_KEY="PRODUCTION_SECRETKEYGOESHERE"
+```
+
+Rebuild your `.env.vault` file.
+
+```shell
+npx dotenv-vault local build
+```
+
+View your `.env.keys` file. There is a production `DOTENV_KEY` that coincides with the additional `DOTENV_VAULT_PRODUCTION` cipher in your `.env.vault` file.
+
+Set the production `DOTENV_KEY` on your server, recommit your `.env.vault` file to code, and deploy. That's it! Your .env.vault fill be decrypted on boot, its production environment variables injected, and your app work as expected.
+
+Want to additionally backup your .env files, maintain access controls, change history, and more? Check out the [vault managed guide to multiple environments](https://www.dotenv.org/docs/languages/go#-manage-multiple-environments).
+
+## ❓ FAQ
 
 #### What happens if `DOTENV_KEY` is not set?
 
