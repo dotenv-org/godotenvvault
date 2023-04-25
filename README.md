@@ -10,7 +10,7 @@ support.
 [![LICENSE](https://img.shields.io/github/license/dotenv-org/godotenvvault.svg)](LICENSE)
 
 * [🌱 Install](#-install)
-* [🏗️ Usage (.env)](#-usage)
+* [🏗️ Usage (.env)](#%EF%B8%8F-usage)
 * [🚀 Deploying (.env.vault) 🆕](#-deploying)
 * [🌴 Multiple Environments](#-manage-multiple-environments)
 * [❓ FAQ](#-faq)
