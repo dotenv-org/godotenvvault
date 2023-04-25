@@ -1,10 +1,13 @@
 # GoDotEnvVault
 
-![CI workflow](https://github.com/dotenv-org/godotenvvault/actions/workflows/ci.yml/badge.svg)
+<img src="https://raw.githubusercontent.com/motdotla/dotenv/master/dotenv.svg" alt="dotenv" align="right" width="200" />
 
 Extends the proven & trusted foundation of
 [godotenv](https://github.com/joho/godotenv), with `.env.vault` file
 support.
+
+![CI workflow](https://github.com/dotenv-org/godotenvvault/actions/workflows/ci.yml/badge.svg)
+[![LICENSE](https://img.shields.io/github/license/dotenv-org/godotenvvault.svg)](LICENSE)
 
 * [🌱 Install](#-install)
 * [🏗️ Usage (.env)](#-usage)
@@ -12,6 +15,7 @@ support.
 * [🌴 Multiple Environments](#-manage-multiple-environments)
 * [❓ FAQ](#-faq)
 * [⏱️ Changelog](./CHANGELOG.md)
+
 
 ## 🌱 Install
 
