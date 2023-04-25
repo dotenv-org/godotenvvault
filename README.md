@@ -31,11 +31,11 @@ npx dotenv-vault local build
 
 This will create an encrypted `.env.vault` file along with a
 `.env.keys` file containing the encryption keys. Set the
-`DOTENV_KEY_DEVELOPMENT` environment variable by copying and pasting
+`DOTENV_KEY` environment variable by copying and pasting
 the key value from the `.env.keys` file:
 
 ```shell
-export DOTENV_KEY_DEVELOPMENT="<key string from .env.keys>"
+export DOTENV_KEY="<key string from .env.keys>"
 ```
 
 You can now delete your original `.env` file, and use Go like the
