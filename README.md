@@ -58,7 +58,18 @@ func main() {
 }
 ```
 
-That's it! `os.Getenv` has the keys and values you defined in your .env file. Continue using it this way in development. It works just like [godotenv](https://github.com/joho/godotenv). In the next section, we'll unlock the recommended deployment mechanism using `.env.vault`.
+That's it! `os.Getenv` has the keys and values you defined in your .env file. Continue using it this way in development. It works just like [godotenv](https://github.com/joho/godotenv).
+
+If you don't want `godotenvvault` to modify your program's environment
+directly, you can just load and decrypt the `.env.vault` file and get
+the result as a map by doing:
+
+```go
+var myEnv map[string]string
+myEnv, err := godotenvvault.Read()
+
+s3Bucket := myEnv["S3_BUCKET"]
+```
 
 ## 🚀 Deploying
 
@@ -87,17 +98,6 @@ file in the project root. For development use, you can leave the
 `godotenv` behaviour of loading from `.env` or a specified set of
 files (see [here in the `gotodenv`
 README](https://github.com/joho/godotenv#usage) for the details).
-
-If you don't want `godotenvvault` to modify your program's environment
-directly, you can just load and decrypt the `.env.vault` file and get
-the result as a map by doing:
-
-```go
-var myEnv map[string]string
-myEnv, err := godotenvvault.Read()
-
-s3Bucket := myEnv["S3_BUCKET"]
-```
 
 ## 🌴 Manage Multiple Environments
 
