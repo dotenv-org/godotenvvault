@@ -149,3 +149,19 @@ envs, and your vault identifier.
 
 No. It is the key that unlocks your encrypted environment variables.
 Be very careful who you share this key with. Do not let it leak.
+
+## Contributing
+
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Added some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md)
+
+## License
+
+MIT
