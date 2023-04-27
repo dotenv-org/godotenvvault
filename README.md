@@ -121,7 +121,20 @@ View your `.env.keys` file. There is a production `DOTENV_KEY` that coincides wi
 
 Set the production `DOTENV_KEY` on your server, recommit your `.env.vault` file to code, and deploy. That's it! Your .env.vault fill be decrypted on boot, its production environment variables injected, and your app work as expected.
 
-> Want to additionally backup your .env files, maintain access controls, change history, and more? Check out the [vault managed guide to multiple environments](https://www.dotenv.org/docs/languages/go#-manage-multiple-environments).
+---
+
+#### ⚡️ vault.dotenv.org ⚡️
+
+Looking for more automation of your `.env.vault` and `.env` files beyond managing them locally:
+
+1. Backup your .env files
+2. Sync between teammates and machines
+3. Access Controls
+4. Version History
+5. Multiple Environments
+6. and more
+
+✨ Check out the [vault managed guide to multiple environments](https://www.dotenv.org/docs/languages/ruby#-manage-multiple-environments).
 
 ## ❓ FAQ
 
