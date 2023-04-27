@@ -1,4 +1,4 @@
-# GoDotEnvVault
+# GoDotEnvVault [![Go project version](https://badge.fury.io/go/github.com%2Fdotenv-org%2Fgodotenvvault.svg)](https://badge.fury.io/go/github.com%2Fdotenv-org%2Fgodotenvvault)
 
 <img src="https://raw.githubusercontent.com/motdotla/dotenv/master/dotenv.svg" alt="dotenv" align="right" width="200" />
 
