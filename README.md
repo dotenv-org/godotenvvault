@@ -2,9 +2,9 @@
 
 <img src="https://raw.githubusercontent.com/motdotla/dotenv/master/dotenv.svg" alt="dotenv" align="right" width="200" />
 
-Extends the proven & trusted foundation of
-[godotenv](https://github.com/joho/godotenv), with `.env.vault` file
-support.
+Extends the proven & trusted foundation of [godotenv](https://github.com/joho/godotenv), with `.env.vault` file support.
+
+The extended standard lets you load encrypted secrets from your `.env.vault` file in production (and other) environments. Brought to you by the same people that pioneered [dotenv-nodejs](https://github.com/motdotla/dotenv).
 
 ![CI workflow](https://github.com/dotenv-org/godotenvvault/actions/workflows/ci.yml/badge.svg)
 [![LICENSE](https://img.shields.io/github/license/dotenv-org/godotenvvault.svg)](LICENSE)
