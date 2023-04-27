@@ -25,6 +25,8 @@ go get github.com/dotenv-org/godotenvvault
 
 ## 🏗️ Usage
 
+Development usage works just like [godotenv](https://github.com/joho/godotenv).
+
 Add your application configuration to your `.env` file in the root of your project:
 
 ```shell
