@@ -16,7 +16,6 @@ The extended standard lets you load encrypted secrets from your `.env.vault` fil
 * [❓ FAQ](#-faq)
 * [⏱️ Changelog](./CHANGELOG.md)
 
-
 ## 🌱 Install
 
 ```shell
@@ -131,7 +130,7 @@ Your .env.vault fill be decrypted on boot, its production environment variables 
 
 #### 🔐 Vault Managed
 
-Sync your .env file. Run the push command and follow the instructions. It works a lot like git. [learn more](/docs/sync/quickstart)
+Sync your .env file. Run the push command and follow the instructions. [learn more](/docs/sync/quickstart)
 
 ```
 $ npx dotenv-vault push
